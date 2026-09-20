@@ -1,1 +1,1183 @@
 
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>车耗管家 - 车辆油耗与保养记录</title>
+
+<meta name="description" content="车耗管家，简单记录每一次加油，清晰掌握每一公里的成本。">
+
+<style>
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        "Microsoft YaHei",
+        Arial,
+        sans-serif;
+
+    color: #172033;
+    background: #f7f9fc;
+    line-height: 1.7;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* =========================
+   顶部导航
+========================= */
+
+header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+
+    background: rgba(255,255,255,0.95);
+
+    backdrop-filter: blur(10px);
+
+    border-bottom: 1px solid #e8edf3;
+}
+
+.nav {
+    max-width: 1120px;
+    width: 92%;
+    height: 68px;
+
+    margin: auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    font-size: 21px;
+    font-weight: 800;
+}
+
+.logo-icon {
+    width: 40px;
+    height: 40px;
+
+    border-radius: 12px;
+
+    background: linear-gradient(
+        135deg,
+        #2563eb,
+        #06b6d4
+    );
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: white;
+
+    font-size: 21px;
+
+    box-shadow:
+        0 8px 20px rgba(37,99,235,0.25);
+}
+
+.nav-links {
+    display: flex;
+    gap: 28px;
+
+    color: #596579;
+
+    font-size: 14px;
+}
+
+.nav-links a:hover {
+    color: #2563eb;
+}
+
+/* =========================
+   首页
+========================= */
+
+.hero {
+    padding: 90px 0 80px;
+
+    background:
+        radial-gradient(
+            circle at 80% 20%,
+            #dff5ff 0,
+            transparent 35%
+        ),
+
+        linear-gradient(
+            180deg,
+            #ffffff 0,
+            #f7f9fc 100%
+        );
+}
+
+.container {
+    width: 92%;
+    max-width: 1120px;
+
+    margin: auto;
+}
+
+.hero-grid {
+    display: grid;
+
+    grid-template-columns:
+        1.1fr
+        0.9fr;
+
+    gap: 55px;
+
+    align-items: center;
+}
+
+.badge {
+    display: inline-block;
+
+    padding: 6px 13px;
+
+    border-radius: 50px;
+
+    background: #eaf2ff;
+
+    color: #2563eb;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    margin-bottom: 18px;
+}
+
+.hero h1 {
+    font-size: clamp(42px,6vw,68px);
+
+    line-height: 1.1;
+
+    letter-spacing: -2px;
+
+    margin-bottom: 20px;
+}
+
+.hero h1 span {
+    color: #2563eb;
+}
+
+.hero p {
+    max-width: 600px;
+
+    font-size: 18px;
+
+    color: #5c677a;
+
+    margin-bottom: 30px;
+}
+
+.buttons {
+    display: flex;
+
+    gap: 14px;
+
+    flex-wrap: wrap;
+}
+
+.btn {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 12px 22px;
+
+    border-radius: 12px;
+
+    font-weight: 700;
+
+    font-size: 15px;
+}
+
+.btn-primary {
+    background: #2563eb;
+
+    color: white;
+
+    box-shadow:
+        0 10px 24px rgba(37,99,235,0.25);
+}
+
+.btn-secondary {
+    background: white;
+
+    border: 1px solid #dbe2eb;
+
+    color: #334155;
+}
+
+/* =========================
+   手机界面展示
+========================= */
+
+.phone {
+    width: 310px;
+
+    margin: auto;
+
+    border: 9px solid #172033;
+
+    border-radius: 38px;
+
+    background: white;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 28px 60px rgba(23,32,51,0.2);
+}
+
+.phone-top {
+    height: 25px;
+
+    background: #172033;
+}
+
+.app-head {
+    padding: 20px 18px 15px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #2563eb,
+            #06b6d4
+        );
+
+    color: white;
+}
+
+.app-head small {
+    opacity: .85;
+}
+
+.app-head strong {
+    display: block;
+
+    font-size: 23px;
+
+    margin-top: 4px;
+}
+
+.stat {
+    margin: 14px;
+
+    padding: 17px;
+
+    border-radius: 16px;
+
+    background: #f7f9fc;
+}
+
+.stat-label {
+    font-size: 12px;
+
+    color: #778195;
+}
+
+.stat-value {
+    font-size: 26px;
+
+    font-weight: 800;
+}
+
+.mini-row {
+    display: grid;
+
+    grid-template-columns:
+        1fr
+        1fr;
+
+    gap: 10px;
+
+    padding: 0 14px 14px;
+}
+
+.mini {
+    padding: 13px;
+
+    border:
+        1px solid
+        #e8edf3;
+
+    border-radius: 14px;
+}
+
+.mini b {
+    font-size: 16px;
+}
+
+.mini small {
+    display: block;
+
+    color: #7a8495;
+}
+
+/* =========================
+   通用 section
+========================= */
+
+section {
+    padding: 85px 0;
+}
+
+.section-head {
+    text-align: center;
+
+    margin-bottom: 45px;
+}
+
+.section-head h2 {
+    font-size: 36px;
+
+    letter-spacing: -1px;
+
+    margin-bottom: 10px;
+}
+
+.section-head p {
+    color: #697487;
+}
+
+/* =========================
+   功能
+========================= */
+
+.features {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4,1fr);
+
+    gap: 18px;
+}
+
+.card {
+    background: white;
+
+    border:
+        1px solid
+        #e8edf3;
+
+    border-radius: 20px;
+
+    padding: 28px;
+
+    box-shadow:
+        0 8px 25px
+        rgba(31,41,55,0.04);
+}
+
+.icon {
+    width: 48px;
+    height: 48px;
+
+    border-radius: 14px;
+
+    background: #edf4ff;
+
+    color: #2563eb;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    font-size: 24px;
+
+    margin-bottom: 18px;
+}
+
+.card h3 {
+    margin-bottom: 8px;
+}
+
+.card p {
+    font-size: 14px;
+
+    color: #6b7587;
+}
+
+/* =========================
+   关于
+========================= */
+
+.about {
+    background: white;
+}
+
+.about-grid {
+    display: grid;
+
+    grid-template-columns:
+        1fr
+        1fr;
+
+    gap: 35px;
+
+    align-items: center;
+}
+
+.about-box {
+    padding: 35px;
+
+    border-radius: 24px;
+
+    background: #f6f9ff;
+
+    border:
+        1px solid
+        #e4ecfb;
+}
+
+.about-box h3 {
+    font-size: 25px;
+
+    margin-bottom: 14px;
+}
+
+.about-box p {
+    color: #687386;
+}
+
+.check {
+    margin-top: 18px;
+
+    display: grid;
+
+    gap: 11px;
+}
+
+.check span {
+    color: #2563eb;
+
+    margin-right: 8px;
+}
+
+/* =========================
+   下载
+========================= */
+
+.download {
+    background:
+        linear-gradient(
+            135deg,
+            #172033,
+            #263b68
+        );
+
+    color: white;
+}
+
+.download .section-head p {
+    color: #c8d1e2;
+}
+
+.download-box {
+    text-align: center;
+
+    max-width: 760px;
+
+    margin: auto;
+}
+
+.download-box p {
+    color: #c8d1e2;
+
+    margin-bottom: 26px;
+}
+
+.note {
+    margin-top: 18px;
+
+    font-size: 13px;
+
+    color: #aebbd0;
+}
+
+/* =========================
+   联系我们
+========================= */
+
+.contact-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3,1fr);
+
+    gap: 18px;
+}
+
+.contact-item {
+    text-align: center;
+
+    background: white;
+
+    border:
+        1px solid
+        #e8edf3;
+
+    border-radius: 18px;
+
+    padding: 26px;
+}
+
+.contact-item .big {
+    font-size: 27px;
+
+    margin-bottom: 8px;
+}
+
+.contact-item p {
+    color: #697487;
+
+    font-size: 14px;
+}
+
+/* =========================
+   底部
+========================= */
+
+footer {
+    background: #101827;
+
+    color: #aeb8c9;
+
+    padding: 30px 0;
+}
+
+.footer-row {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    gap: 20px;
+
+    font-size: 13px;
+}
+
+.footer-links {
+    display: flex;
+
+    gap: 18px;
+}
+
+.footer-links a:hover {
+    color: white;
+}
+
+/* =========================
+   手机端
+========================= */
+
+@media(max-width:850px) {
+
+    .nav-links {
+        display: none;
+    }
+
+    .hero {
+        padding: 65px 0;
+    }
+
+    .hero-grid,
+    .about-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .hero-copy {
+        text-align: center;
+    }
+
+    .hero p {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .buttons {
+        justify-content: center;
+    }
+
+    .features {
+        grid-template-columns:
+            1fr 1fr;
+    }
+
+    .contact-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media(max-width:520px) {
+
+    section {
+        padding: 65px 0;
+    }
+
+    .features {
+        grid-template-columns: 1fr;
+    }
+
+    .section-head h2 {
+        font-size: 30px;
+    }
+
+    .footer-row {
+        flex-direction: column;
+
+        text-align: center;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- =========================
+     导航栏
+========================= -->
+
+<header>
+
+<div class="container nav">
+
+<a class="logo" href="#">
+
+<div class="logo-icon">
+🚗
+</div>
+
+车耗管家
+
+</a>
+
+<nav class="nav-links">
+
+<a href="#features">功能</a>
+
+<a href="#about">关于</a>
+
+<a href="#download">下载</a>
+
+<a href="#contact">联系我们</a>
+
+</nav>
+
+</div>
+
+</header>
+
+
+<!-- =========================
+     首页
+========================= -->
+
+<section class="hero">
+
+<div class="container hero-grid">
+
+<div class="hero-copy">
+
+<div class="badge">
+专为车主打造的用车记录工具
+</div>
+
+<h1>
+让每一公里，<br>
+<span>都算得清楚。</span>
+</h1>
+
+<p>
+车耗管家帮助你轻松记录加油、
+查看油耗、管理车辆保养提醒，
+让日常用车更加清晰、简单。
+</p>
+
+<div class="buttons">
+
+<a class="btn btn-primary"
+href="#download">
+立即了解
+</a>
+
+<a class="btn btn-secondary"
+href="#features">
+查看功能
+</a>
+
+</div>
+
+</div>
+
+
+<!-- 手机展示 -->
+
+<div class="phone">
+
+<div class="phone-top"></div>
+
+<div class="app-head">
+
+<small>
+车耗管家
+</small>
+
+<strong>
+本月用车数据
+</strong>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-label">
+平均油耗
+</div>
+
+<div class="stat-value">
+7.2 L/100km
+</div>
+
+</div>
+
+
+<div class="mini-row">
+
+<div class="mini">
+
+<b>
+¥ 856
+</b>
+
+<small>
+累计加油
+</small>
+
+</div>
+
+
+<div class="mini">
+
+<b>
+1,280 km
+</b>
+
+<small>
+行驶里程
+</small>
+
+</div>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-label">
+保养提醒
+</div>
+
+<div class="stat-value"
+style="font-size:20px">
+
+下次保养 5,000 km
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     功能
+========================= -->
+
+<section id="features">
+
+<div class="container">
+
+<div class="section-head">
+
+<h2>
+核心功能
+</h2>
+
+<p>
+把复杂的车辆数据，变成简单易懂的记录。
+</p>
+
+</div>
+
+
+<div class="features">
+
+
+<div class="card">
+
+<div class="icon">
+⛽
+</div>
+
+<h3>
+加油记录
+</h3>
+
+<p>
+记录日期、里程、加油量、
+油价和备注，完整保存每次加油信息。
+</p>
+
+</div>
+
+
+<div class="card">
+
+<div class="icon">
+📊
+</div>
+
+<h3>
+油耗统计
+</h3>
+
+<p>
+自动计算平均油耗、
+累计费用和行驶里程，直观看懂车辆开销。
+</p>
+
+</div>
+
+
+<div class="card">
+
+<div class="icon">
+🔧
+</div>
+
+<h3>
+保养提醒
+</h3>
+
+<p>
+记录保养项目和下次保养里程，
+减少忘记保养的情况。
+</p>
+
+</div>
+
+
+<div class="card">
+
+<div class="icon">
+💾
+</div>
+
+<h3>
+数据备份
+</h3>
+
+<p>
+支持将记录导出为 JSON 文件，
+也可以随时导入恢复自己的数据。
+</p>
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     关于
+========================= -->
+
+<section id="about"
+class="about">
+
+<div class="container about-grid">
+
+
+<div>
+
+<div class="section-head"
+style="text-align:left;margin-bottom:20px">
+
+<h2>
+为什么做车耗管家？
+</h2>
+
+</div>
+
+<p style="color:#687386;font-size:16px">
+
+很多车主知道自己的车在加油，
+却很难长期、清楚地知道自己的真实油耗和用车成本。
+
+</p>
+
+<p style="color:#687386;font-size:16px;margin-top:12px">
+
+车耗管家希望用一个简单的工具，
+把这些零散信息记录下来，
+让你随时知道自己的车花了多少钱、
+跑了多远、平均油耗是多少。
+
+</p>
+
+</div>
+
+
+<div class="about-box">
+
+<h3>
+简单、实用、专注
+</h3>
+
+<p>
+不追求复杂的功能，
+只专注于车辆油耗记录和保养管理。
+</p>
+
+
+<div class="check">
+
+<div>
+<span>✓</span>
+操作简单，上手容易
+</div>
+
+<div>
+<span>✓</span>
+油耗数据自动计算
+</div>
+
+<div>
+<span>✓</span>
+支持数据导入与导出
+</div>
+
+<div>
+<span>✓</span>
+适合日常长期使用
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     下载
+========================= -->
+
+<section id="download"
+class="download">
+
+<div class="container">
+
+<div class="section-head">
+
+<h2>
+下载车耗管家
+</h2>
+
+<p>
+正式下载地址上线后，将在这里提供最新版本。
+</p>
+
+</div>
+
+
+<div class="download-box">
+
+<p>
+
+目前官网已经准备好。
+应用商店审核通过后，
+可以将下面按钮替换成实际下载地址。
+
+</p>
+
+
+<a class="btn btn-primary"
+href="#"
+onclick="alert('下载地址将在应用正式发布后更新。');return false;">
+
+下载最新版本
+
+</a>
+
+
+<div class="note">
+
+提示：正式发布前，
+请将按钮链接替换为应用商店页面或 APK 下载地址。
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     联系
+========================= -->
+
+<section id="contact">
+
+<div class="container">
+
+<div class="section-head">
+
+<h2>
+联系我们
+</h2>
+
+<p>
+如果你在使用过程中遇到问题，欢迎联系我们。
+</p>
+
+</div>
+
+
+<div class="contact-grid">
+
+
+<div class="contact-item">
+
+<div class="big">
+✉️
+</div>
+
+<strong>
+电子邮箱
+</strong>
+
+<p>
+wang2020329@163.com
+</p>
+
+</div>
+
+
+<div class="contact-item">
+
+<div class="big">
+📱
+</div>
+
+<strong>
+应用名称
+</strong>
+
+<p>
+车耗管家
+</p>
+
+</div>
+
+
+<div class="contact-item">
+
+<div class="big">
+🔐
+</div>
+
+<strong>
+隐私政策
+</strong>
+
+<p>
+隐私政策页面即将上线
+</p>
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     页脚
+========================= -->
+
+<footer>
+
+<div class="container footer-row">
+
+<div>
+© 2026 车耗管家　保留所有权利
+</div>
+
+<div class="footer-links">
+
+<a href="#about">
+关于车耗管家
+</a>
+
+<a href="#contact">
+联系我们
+</a>
+
+</div>
+
+</div>
+
+</footer>
+
+</body>
+</html>
